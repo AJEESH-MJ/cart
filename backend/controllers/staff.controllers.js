@@ -46,6 +46,7 @@ const registerStaff = asyncHandler(async (req, res) => {
       _id: staff._id,
       name: staff.name,
       phone: staff.phone,
+      role: staff.role,
       token: generateToken(staff._id),
     })
   )
@@ -81,6 +82,7 @@ const loginStaff = asyncHandler(async (req, res) => {
       _id: staffExist._id,
       name: staffExist.name,
       phone: staffExist.phone,
+      role: staffExist.role,
       token: generateToken(staffExist._id),
     })
   )
