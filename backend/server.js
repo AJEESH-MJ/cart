@@ -21,6 +21,7 @@ app.get('/', (req, res) => res.send('Server is running...'))
 // API Routes
 app.use('/api/staff', require('./routes/staff.routes'))
 app.use('/api/customer', require('./routes/customer.routes'))
+app.use('/api/garment', require('./routes/garment.routes'))
 
 // Error Handling Middleware
 app.use(notFound)

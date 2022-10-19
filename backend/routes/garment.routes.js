@@ -10,7 +10,7 @@ const {
   read,
   update,
   remove,
-} = require('../controllers/customer.controllers')
+} = require('../controllers/garment.controllers')
 
 router.get('/read/all', protect, readAll)
 router.get('/read/my', protect, readMy)

@@ -22,7 +22,7 @@ const readMy = asyncHandler(async (req, res) => {
 // @desc    Create customer
 // @route   POST api/customer/create
 // @access  Public
-const createCustomer = asyncHandler(async (req, res) => {
+const create = asyncHandler(async (req, res) => {
   // Validate customer data
   const { errors, valid } = validateCustomer(req.body)
   if (!valid) {
@@ -51,7 +51,7 @@ const createCustomer = asyncHandler(async (req, res) => {
 // @desc    Read customer
 // @route   GET api/customer/read/:id
 // @access  Public
-const readCustomer = asyncHandler(async (req, res) => {
+const read = asyncHandler(async (req, res) => {
   const customer = await Customer.findById(req.params.id)
   res.status(200).json(customer)
 })
@@ -59,7 +59,7 @@ const readCustomer = asyncHandler(async (req, res) => {
 // @desc    Update customer
 // @route   PUT api/customer/update/:id
 // @access  Public
-const updateCustomer = asyncHandler(async (req, res) => {
+const update = asyncHandler(async (req, res) => {
   // Validate customer data
   const { errors, valid } = validateCustomer(req.body)
   if (!valid) {
@@ -71,10 +71,10 @@ const updateCustomer = asyncHandler(async (req, res) => {
   res.status(200).json(customer)
 })
 
-// @desc    Delete customer
+// @desc    Remove customer
 // @route   DELETE api/customers/delete/:id
 // @access  Public
-const deleteCustomer = asyncHandler(async (req, res) => {
+const remove = asyncHandler(async (req, res) => {
   const customer = await Customer.findByIdAndRemove(req.params.id)
   res.status(200).json(customer)
 })
@@ -82,8 +82,8 @@ const deleteCustomer = asyncHandler(async (req, res) => {
 module.exports = {
   readAll,
   readMy,
-  createCustomer,
-  readCustomer,
-  updateCustomer,
-  deleteCustomer,
+  create,
+  read,
+  update,
+  remove,
 }
