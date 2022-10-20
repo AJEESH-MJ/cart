@@ -2,7 +2,10 @@ const asyncHandler = require('express-async-handler')
 const Template = require('../models/template.model')
 const Garment = require('../models/garment.model')
 
-const { validateTemplate } = require('../validation/template.validation')
+const {
+  validateTemplate,
+  validateUpdateMeasurement,
+} = require('../validation/template.validation')
 
 // @desc    Get all templates
 // @route   GET api/template/read/all
@@ -58,40 +61,30 @@ const read = asyncHandler(async (req, res) => {
   res.status(200).json(template)
 })
 
-//-------------------------------------------------------check function later
-// @desc    Update template
-// @route   PUT api/template/update/:id
+// @desc    Update template measurement
+// @route   PUT api/template/update-measurement/:id
 // @access  Public
-const update = asyncHandler(async (req, res) => {
+const updateMeasurement = asyncHandler(async (req, res) => {
   // Destructure data
-  const { name, garment, measurement } = req.body
-
-  const garmentExist = await Garment.findOne({ name: garment })
+  const { measurement } = req.body
 
   // Validate template data
-  const { errors, valid } = validateTemplate({
-    ...req.body,
-    garmentExist,
+  const { errors, valid } = validateUpdateMeasurement({
+    measurement,
   })
-
   if (!valid) {
     res.status(200).json(errors)
+  } else {
+    // Update template
+    const template = await Template.findByIdAndUpdate(
+      req.params.id,
+      { measurement },
+      {
+        new: true,
+      }
+    )
+    res.status(200).json(template)
   }
-
-  // Update template
-  const template = await Template.findByIdAndUpdate(
-    req.params.id,
-    {
-      staff_id: req.staff._id,
-      garment_id: garmentExist._id,
-      name,
-      measurement,
-    },
-    {
-      new: true,
-    }
-  )
-  res.status(200).json(template)
 })
 
 // @desc    Remove template
@@ -107,6 +100,6 @@ module.exports = {
   readMy,
   create,
   read,
-  update,
+  updateMeasurement,
   remove,
 }

@@ -30,6 +30,22 @@ const validateTemplate = (data) => {
   }
 }
 
+const validateUpdateMeasurement = (data) => {
+  let errors = {}
+
+  data.measurement = !isEmpty(data.measurement) ? data.measurement : ''
+
+  if (!data.measurement) {
+    errors.measurementError = 'Measurement is required'
+  }
+
+  return {
+    errors,
+    valid: isEmpty(errors),
+  }
+}
+
 module.exports = {
   validateTemplate,
+  validateUpdateMeasurement,
 }
