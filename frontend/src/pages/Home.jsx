@@ -1,4 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+
+import { useNavigate } from 'react-router-dom'
+
+import { useDispatch, useSelector } from 'react-redux'
+import { logout, reset } from '../redux/slices/staff.slice'
+
 import NavButton from '../assets/NavButton'
 import Navbar from '../components/Navbar'
 import Profile from '../components/Profile'
@@ -10,6 +16,26 @@ import Staffs from './Staffs'
 import Work from './Work'
 
 export default function Home() {
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const { staff, errors } = useSelector((state) => state.staff)
+
+  useEffect(() => {
+    console.log(staff)
+    console.log(errors)
+    console.log('fadsagd')
+    if (!staff) {
+      navigate('/login')
+    }
+
+    dispatch(reset())
+  }, [navigate, staff, dispatch, errors])
+
+  const logoutHandler = () => {
+    dispatch(logout())
+  }
+
   const [hidebar, setHidebar] = useState(false)
 
   const hidebarHandler = () => {
@@ -17,9 +43,7 @@ export default function Home() {
   }
 
   const [tab, setTab] = useState('Work')
-  let name = 'Noufal Thonikkara'
   let imageURL = '/images/noufal.jpg'
-  let role = 'Manager'
 
   return (
     <div class='flex h-screen w-full'>
@@ -36,7 +60,11 @@ export default function Home() {
             onClick={hidebarHandler}>
             X
           </div>
-          <Profile name={name} imageURL={imageURL} role={role} />
+          <Profile
+            name={staff && staff.name}
+            imageURL={imageURL}
+            role={staff && staff.role}
+          />
           <div class='navigation w-full flex-1 text-gray-500 p-4 text-base font-medium'>
             <NavButton text={'Work'} tab={tab} setTab={setTab} />
             <div class='flex flex-col gap-1 py-5'>
@@ -59,9 +87,10 @@ export default function Home() {
       <main class='flex flex-1 flex-col'>
         <Navbar
           tab={tab}
-          name={name}
+          name={staff && staff.role}
           imageURL={imageURL}
           hidebarHandler={hidebarHandler}
+          logoutHandler={logoutHandler}
         />
         {tab === 'Work' && <Work />}
         {tab === 'Customers' && <Customers />}

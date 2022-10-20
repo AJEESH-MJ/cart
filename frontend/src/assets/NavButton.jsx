@@ -22,14 +22,14 @@ export default function NavButton({ text, tab, setTab }) {
           fill='black'>
           <rect fill='white' width='33' height='26' />
           <path
-            fill-rule='evenodd'
-            clip-rule='evenodd'
+            fillRule='evenodd'
+            clipRule='evenodd'
             d='M6 12L16.5 3L27 12H23.7692V23.5H20.1346V13.25H16.5H12.8654V23.5H9.23077V12H6Z'
           />
         </mask>
         <path
-          fill-rule='evenodd'
-          clip-rule='evenodd'
+          fillRule='evenodd'
+          clipRule='evenodd'
           d='M6 12L16.5 3L27 12H23.7692V23.5H20.1346V13.25H16.5H12.8654V23.5H9.23077V12H6Z'
           fill='#D3D3D3'
         />
