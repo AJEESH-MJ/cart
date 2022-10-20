@@ -19,6 +19,10 @@ const staffSchema = mongoose.Schema(
       type: String,
       required: [true, 'Please add a role'],
     },
+    imageURL: {
+      type: String,
+      required: [true, 'Please add a image url'],
+    },
   },
   {
     timestamps: true,
