@@ -15,7 +15,7 @@ const readAll = asyncHandler(async (req, res) => {
 // @route   GET api/garment/read/my
 // @access  Public
 const readMy = asyncHandler(async (req, res) => {
-  const garments = await Garment.find({ staff_id: req.staff.id })
+  const garments = await Garment.find({ staff_id: req.staff._id })
   res.status(200).json(garments)
 })
 

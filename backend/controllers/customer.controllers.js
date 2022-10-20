@@ -15,7 +15,7 @@ const readAll = asyncHandler(async (req, res) => {
 // @route   GET api/customer/read/my
 // @access  Public
 const readMy = asyncHandler(async (req, res) => {
-  const customers = await Customer.find({ staff_id: req.staff.id })
+  const customers = await Customer.find({ staff_id: req.staff._id })
   res.status(200).json(customers)
 })
 
@@ -40,7 +40,7 @@ const create = asyncHandler(async (req, res) => {
 
   // Create customer
   const customer = await Customer.create({
-    staff_id: req.staff.id,
+    staff_id: req.staff._id,
     name,
     phone,
     place,
