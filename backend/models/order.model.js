@@ -15,10 +15,10 @@ const orderSchema = mongoose.Schema(
       required: true,
       ref: 'Customer',
     },
-    garment_id: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: true,
-      ref: 'Garment',
+    garment: {
+      type: String,
+      required: [true, 'Please add a name'],
+      unique: true,
     },
     measurement: [measurementSchema],
     status: [statusSchema],

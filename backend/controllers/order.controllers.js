@@ -29,11 +29,35 @@ const readMy = asyncHandler(async (req, res) => {
 // @route   POST api/order/create
 // @access  Public
 const create = asyncHandler(async (req, res) => {
+  // Sample of req.body
+  // {
+  //   "customer_id": "5f9f1b0b8b0b2c2b8c8b8b8b",
+  //   "garment": "Shirt",
+  //   "measurement": [
+  //     {
+  //       "name": "Neck",
+  //       "value": 15
+  //     },
+  //     {
+  //       "name": "Chest",
+  //       "value": 15
+  //     },
+  //     {
+  //       "name": "Waist",
+  //       "value": 15
+  //     },
+  //     {
+  //       "name": "Hip",
+  //       "value": 15
+  //     }
+  //   ],
+  //   "current_status": [ "job": "Cutting", "note": "this is a note" ],
+  //   "price": 1000
+  // }
   // Destructure data
   const { customer_id, garment, measurement, current_status, price } = req.body
-
+  // Check if garment exist
   const garmentExist = await Garment.findOne({ name: garment })
-
   // Validate order data
   const { errors, valid } = validateOrder({
     customer_id,
@@ -45,20 +69,18 @@ const create = asyncHandler(async (req, res) => {
   })
   if (!valid) {
     res.status(200).json(errors)
+  } else {
+    // Create order
+    const order = await Order.create({
+      staff_id: req.staff._id,
+      customer_id: customer_id,
+      garment: garment,
+      measurement,
+      status: [{ ...current_status, staff_id: req.staff._id }],
+      price,
+    })
+    res.status(200).json(order)
   }
-
-  // Create order
-  //   status = status.push({ ...status, staff_id: req.staff._id })
-  //   const order = { output: 'working' }
-  const order = await Order.create({
-    staff_id: req.staff._id,
-    customer_id: customer_id,
-    garment_id: garmentExist._id,
-    measurement,
-    status: [{ ...current_status, staff_id: req.staff._id }],
-    price,
-  })
-  res.status(200).json(order)
 })
 
 // @desc    Read order
@@ -73,9 +95,13 @@ const read = asyncHandler(async (req, res) => {
 // @route   PUT api/order/update-status/:id
 // @access  Public
 const updateStatus = asyncHandler(async (req, res) => {
+  // Sample of req.body
+  // {
+  //   "job": "Cutting",
+  //   "note": "this is a note"
+  // }
   // Destructure data
   const { current_status } = req.body
-
   // Validate order data
   const { errors, valid } = validateUpdateStatus({
     current_status,
@@ -87,9 +113,7 @@ const updateStatus = asyncHandler(async (req, res) => {
     const order = await Order.findByIdAndUpdate(
       req.params.id,
       { $push: { status: { ...current_status, staff_id: req.staff._id } } },
-      {
-        new: true,
-      }
+      { new: true }
     )
     res.status(200).json(order)
   }
@@ -99,9 +123,25 @@ const updateStatus = asyncHandler(async (req, res) => {
 // @route   PUT api/order/update-measurement/:id
 // @access  Public
 const updateMeasurement = asyncHandler(async (req, res) => {
+  // Sample of req.body
+  // {
+  //   "measurement": [
+  //     {
+  //       "name": "Neck",
+  //       "value": 15
+  //     },
+  //     {
+  //       "name": "Chest",
+  //       "value": 15
+  //     },
+  //     {
+  //       "name": "Waist",
+  //       "value": 15
+  //     }
+  //   ]
+  // }
   // Destructure data
   const { measurement } = req.body
-
   // Validate order data
   const { errors, valid } = validateUpdateMeasurement({
     measurement,
@@ -113,9 +153,7 @@ const updateMeasurement = asyncHandler(async (req, res) => {
     const order = await Order.findByIdAndUpdate(
       req.params.id,
       { measurement },
-      {
-        new: true,
-      }
+      { new: true }
     )
     res.status(200).json(order)
   }
@@ -125,9 +163,12 @@ const updateMeasurement = asyncHandler(async (req, res) => {
 // @route   PUT api/order/update-measurement/:id
 // @access  Public
 const updatePrice = asyncHandler(async (req, res) => {
+  // Sample of req.body
+  // {
+  //   "price": 1000
+  // }
   // Destructure data
   const { price } = req.body
-
   // Validate order data
   const { errors, valid } = validateUpdatePrice({
     price,
@@ -139,9 +180,7 @@ const updatePrice = asyncHandler(async (req, res) => {
     const order = await Order.findByIdAndUpdate(
       req.params.id,
       { price },
-      {
-        new: true,
-      }
+      { new: true }
     )
     res.status(200).json(order)
   }

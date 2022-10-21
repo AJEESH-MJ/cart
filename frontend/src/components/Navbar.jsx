@@ -9,7 +9,7 @@ export default function Navbar({
   logoutHandler,
 }) {
   return (
-    <nav class='flex items-center gap-3 bg-white py-3 px-6 text-xl font-medium text-gray-700'>
+    <nav class='fixed w-full flex items-center gap-3 bg-white py-3 px-6 text-xl font-medium text-gray-700 shadow-lg shadow-gray-200 z-[99]'>
       <div onClick={hidebarHandler}>
         <Hamburger />
       </div>
