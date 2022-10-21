@@ -13,17 +13,18 @@ const {
 // @route   POST api/staff/register
 // @access  Public
 const registerStaff = asyncHandler(async (req, res) => {
-  // Destructure data
-  const { name, phone, password, role, imageURL } = req.body
-
   // a sample of data
   // {
   //   "name": "staff1",
   //   "phone": "1234567890",
   //   "password": "1234",
+  //   "repeatPassword": "123",
   //   "role": "admin",
   //   "imageURL": "https://www.google.com"
   // }
+
+  // Destructure data
+  const { name, phone, password, repeatPassword, role, imageURL } = req.body
 
   // Check the staff exist
   const staffExist = await Staff.findOne({ phone })
@@ -33,6 +34,7 @@ const registerStaff = asyncHandler(async (req, res) => {
     name,
     phone,
     password,
+    repeatPassword,
     role,
     imageURL,
     staffExist,

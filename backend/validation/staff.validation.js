@@ -7,6 +7,7 @@ const validateRegister = (data) => {
   // name,
   // phone,
   // password,
+  // repeatPassword,
   // role,
   // imageURL,
   // staffExist
@@ -14,6 +15,7 @@ const validateRegister = (data) => {
   data.name = !isEmpty(data.name) ? data.name : ''
   data.phone = !isEmpty(data.phone) ? data.phone : ''
   data.password = !isEmpty(data.password) ? data.password : ''
+  data.repeatPassword = !isEmpty(data.repeatPassword) ? data.repeatPassword : ''
   data.role = !isEmpty(data.role) ? data.role : ''
   data.imageURL = !isEmpty(data.imageURL) ? data.imageURL : ''
   data.staffExist = !isEmpty(data.staffExist) ? data.staffExist : ''
@@ -32,6 +34,12 @@ const validateRegister = (data) => {
     errors.passwordError = 'Password is required'
   } else if (data.password.length < 4) {
     errors.passwordError = 'Password length must be greater than 3 characters'
+  }
+
+  if (validator.isEmpty(data.repeatPassword)) {
+    errors.repeatPasswordError = 'Repeat password is required'
+  } else if (data.password !== data.repeatPassword) {
+    errors.repeatPasswordError = 'Password and repeat password must be same'
   }
 
   if (validator.isEmpty(data.role)) {
