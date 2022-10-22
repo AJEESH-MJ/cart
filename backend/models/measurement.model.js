@@ -5,9 +5,13 @@ const measurementSchema = mongoose.Schema({
     type: String,
     required: [true, 'Please add a label'],
   },
-  input: {
+  value: {
+    type: Number,
+    required: [true, 'Please add a value'],
+  },
+  unit: {
     type: String,
-    required: [true, 'Please add a input type'],
+    required: [true, 'Please add a unit'],
   },
 })
 

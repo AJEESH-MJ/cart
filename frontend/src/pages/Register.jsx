@@ -24,11 +24,9 @@ export default function Register() {
   useEffect(() => {
     console.log(staff)
     console.log(errors)
-
     if (staff) {
       navigate('/')
     }
-
     dispatch(reset())
   }, [navigate, staff, dispatch, errors])
 

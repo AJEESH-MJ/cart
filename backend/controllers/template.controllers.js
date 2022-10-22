@@ -29,10 +29,10 @@ const readMy = asyncHandler(async (req, res) => {
 const create = asyncHandler(async (req, res) => {
   // Destructure data
   const { name, garment, measurement } = req.body
-
+  // Check the template exist
   const templateExist = await Template.findOne({ name: name })
+  // Check the garment exist
   const garmentExist = await Garment.findOne({ name: garment })
-
   // Validate template data
   const { errors, valid } = validateTemplate({
     ...req.body,
@@ -41,16 +41,16 @@ const create = asyncHandler(async (req, res) => {
   })
   if (!valid) {
     res.status(200).json(errors)
+  } else {
+    // Create template
+    const template = await Template.create({
+      staff_id: req.staff._id,
+      garment: garment,
+      name,
+      measurement,
+    })
+    res.status(200).json(template)
   }
-
-  // Create template
-  const template = await Template.create({
-    staff_id: req.staff._id,
-    garment_id: garmentExist._id,
-    name,
-    measurement,
-  })
-  res.status(200).json(template)
 })
 
 // @desc    Read template

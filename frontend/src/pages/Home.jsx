@@ -3,16 +3,17 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { logout, reset } from '../redux/slices/staff.slice'
+import { getProfile, logout, reset } from '../redux/slices/staff.slice'
 
 import Navbar from '../components/Navbar'
 import Sidebar from '../components/Sidebar'
 
-import Customers from './Customers'
-import Garments from './Garments'
-import Orders from './Orders'
-import Staffs from './Staffs'
-import Work from './Work'
+import Customers from '../nav-tabs/Customers'
+import Garments from '../nav-tabs/Garments'
+import Orders from '../nav-tabs/Orders'
+import Staffs from '../nav-tabs/Staffs'
+import Work from '../nav-tabs/Work'
+import Template from '../nav-tabs/Template'
 
 export default function Home() {
   const dispatch = useDispatch()
@@ -21,13 +22,11 @@ export default function Home() {
   const { staff, errors } = useSelector((state) => state.staff)
 
   useEffect(() => {
-    console.log(staff)
-    console.log(errors)
-    if (!staff) {
-      navigate('/login')
-    }
-    dispatch(reset())
-  }, [navigate, staff, dispatch, errors])
+    dispatch(getProfile()).then(() => dispatch(reset()))
+  }, [navigate, dispatch])
+  if (!staff) {
+    navigate('/login')
+  }
 
   const logoutHandler = () => {
     dispatch(logout())
@@ -62,12 +61,13 @@ export default function Home() {
           hidebarHandler={hidebarHandler}
           logoutHandler={logoutHandler}
         />
-        <section class='shadow-inset flex flex-1 items-center justify-center bg-slate-100 text-xl md:p-5'>
+        <section class='shadow-inset flex flex-col flex-1 items-center justify-center bg-slate-100 text-xl md:px-5 lg:px-20 xl:px-40'>
           {tab === 'Work' && <Work />}
           {tab === 'Customers' && <Customers />}
           {tab === 'Orders' && <Orders />}
-          {tab === 'Staffs' && <Staffs />}
           {tab === 'Garments' && <Garments />}
+          {tab === 'Template' && <Template />}
+          {tab === 'Staffs' && <Staffs />}
         </section>
       </main>
     </div>

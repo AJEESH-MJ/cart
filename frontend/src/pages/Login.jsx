@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { login, reset } from '../redux/slices/staff.slice'
 
 import Button from '../assets/Button'
+import LineHeading from '../assets/LineHeading'
 
 export default function Login() {
   const dispatch = useDispatch()
@@ -50,11 +51,7 @@ export default function Login() {
     <div class='flex w-[600px] flex-col items-center gap-10 rounded-lg bg-white px-20 py-5 shadow-2xl shadow-gray-300'>
       <div class='text-xl font-semibold'>Login Page</div>
       <div class='flex w-[100%] flex-col gap-5'>
-        <div class='flex items-center after:mt-0.5 after:flex-1 after:border-t after:border-gray-300'>
-          <p class='mr-4 mb-0 text-center font-medium text-slate-600'>
-            Please login to your account
-          </p>
-        </div>
+        <LineHeading text={'Please login to your account'} />
         <div class=''>
           <input
             name='phone'
@@ -76,7 +73,7 @@ export default function Login() {
           />
         </div>
         <div onClick={loginHandler} class='text-center'>
-          <Button text={'LOGIN'} />
+          <Button text={'LOGIN'} color={'bg-slate-600'} />
         </div>
       </div>
       Don't have an account yet?

@@ -9,10 +9,10 @@ const templateSchema = mongoose.Schema(
       required: true,
       ref: 'Staff',
     },
-    garment_id: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: true,
-      ref: 'Garment',
+    garment: {
+      type: String,
+      required: [true, 'Please add a name'],
+      unique: true,
     },
     name: {
       type: String,

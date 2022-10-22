@@ -7,6 +7,7 @@ const validateCustomer = (data) => {
   data.name = !isEmpty(data.name) ? data.name : ''
   data.phone = !isEmpty(data.phone) ? data.phone : ''
   data.place = !isEmpty(data.place) ? data.place : ''
+  data.customerExist = !isEmpty(data.customerExist) ? data.customerExist : ''
 
   if (validator.isEmpty(data.name)) {
     errors.nameError = 'Name is required'
@@ -20,6 +21,10 @@ const validateCustomer = (data) => {
 
   if (validator.isEmpty(data.place)) {
     errors.placeError = 'Place is required'
+  }
+
+  if (data.customerExist) {
+    errors.existError = 'This phone already exist'
   }
 
   return {

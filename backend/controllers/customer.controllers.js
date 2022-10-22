@@ -23,29 +23,35 @@ const readMy = asyncHandler(async (req, res) => {
 // @route   POST api/customer/create
 // @access  Public
 const create = asyncHandler(async (req, res) => {
-  // Validate customer data
-  const { errors, valid } = validateCustomer(req.body)
-  if (!valid) {
-    res.status(200).json(errors)
-  }
-
+  // sample customer
+  // {
+  //   "name": "John Doe",
+  //   "phone": "0123456789",
+  //   "place": "a place"
+  // }
   // Destructure data
   const { name, phone, place } = req.body
-
   // Check the customer exist
   const customerExist = await Customer.findOne({ phone })
-  if (customerExist) {
-    res.status(200).json({ existError: 'This phone already exist' })
-  }
-
-  // Create customer
-  const customer = await Customer.create({
-    staff_id: req.staff._id,
+  // Validate customer data
+  const { errors, valid } = validateCustomer({
     name,
     phone,
     place,
+    customerExist,
   })
-  res.status(200).json(customer)
+  if (!valid) {
+    res.status(200).json(errors)
+  } else {
+    // Create customer
+    const customer = await Customer.create({
+      staff_id: req.staff._id,
+      name,
+      phone,
+      place,
+    })
+    res.status(200).json(customer)
+  }
 })
 
 // @desc    Read customer
