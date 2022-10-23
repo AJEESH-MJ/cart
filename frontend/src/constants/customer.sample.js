@@ -1,4 +1,4 @@
-const customers = [
+const seedCustomers = [
   {
     id: '1234-5678-1',
     name: 'John Doe',
@@ -421,4 +421,4 @@ const customers = [
   },
 ]
 
-export default customers
+export default seedCustomers

@@ -1,20 +1,20 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import customerService from '../services/customer.service'
+import garmentService from '../services/garment.service'
 
 const initialState = {
-  customers: null,
-  customer: null,
+  garments: null,
+  garment: null,
   status: 'idle',
   errors: null,
 }
 
-// Read all customers
+// Read all garments
 export const readAll = createAsyncThunk(
-  'customer/readAll',
+  'garment/readAll',
   async (_, thunkAPI) => {
     try {
       const token = thunkAPI.getState().staff.staff.token
-      const data = await customerService.readAll(token)
+      const data = await garmentService.readAll(token)
       return data
     } catch (error) {
       const errorMessage = error.message || error.toString()
@@ -23,11 +23,11 @@ export const readAll = createAsyncThunk(
   }
 )
 
-// Read my customers
-export const readMy = createAsyncThunk('customer/readMy', async (thunkAPI) => {
+// Read my garments
+export const readMy = createAsyncThunk('garment/readMy', async (thunkAPI) => {
   try {
     const token = thunkAPI.getState().staff.staff.token
-    const data = await customerService.readMy(token)
+    const data = await garmentService.readMy(token)
     return data
   } catch (error) {
     const errorMessage = error.message || error.toString()
@@ -35,13 +35,13 @@ export const readMy = createAsyncThunk('customer/readMy', async (thunkAPI) => {
   }
 })
 
-// create customer
+// create garment
 export const create = createAsyncThunk(
-  'customer/create',
-  async (customer, thunkAPI) => {
+  'garment/create',
+  async (garment, thunkAPI) => {
     try {
       const token = thunkAPI.getState().staff.staff.token
-      const data = await customerService.create(customer, token)
+      const data = await garmentService.create(garment, token)
       if (data._id) {
         return data
       } else {
@@ -54,11 +54,11 @@ export const create = createAsyncThunk(
   }
 )
 
-// read customer
-export const read = createAsyncThunk('customer/read', async (id, thunkAPI) => {
+// read garment
+export const read = createAsyncThunk('garment/read', async (id, thunkAPI) => {
   try {
     const token = thunkAPI.getState().staff.staff.token
-    const data = await customerService.read(id, token)
+    const data = await garmentService.read(id, token)
     if (data._id) {
       return data
     } else {
@@ -70,13 +70,13 @@ export const read = createAsyncThunk('customer/read', async (id, thunkAPI) => {
   }
 })
 
-// update customer
+// update garment
 export const update = createAsyncThunk(
-  'customer/update',
-  async (id, customer, thunkAPI) => {
+  'garment/update',
+  async (id, garment, thunkAPI) => {
     try {
       const token = thunkAPI.getState().staff.staff.token
-      const data = await customerService.update(id, customer, token)
+      const data = await garmentService.update(id, garment, token)
       if (data._id) {
         return data
       } else {
@@ -89,13 +89,13 @@ export const update = createAsyncThunk(
   }
 )
 
-// delete customer
+// delete garment
 export const remove = createAsyncThunk(
-  'customer/remove',
+  'garment/remove',
   async (id, thunkAPI) => {
     try {
       const token = thunkAPI.getState().staff.staff.token
-      const data = await customerService.remove(id, token)
+      const data = await garmentService.remove(id, token)
       if (data._id) {
         return data
       } else {
@@ -108,9 +108,9 @@ export const remove = createAsyncThunk(
   }
 )
 
-// Customer slice
-export const customerSlice = createSlice({
-  name: 'customer',
+// garment slice
+export const garmentSlice = createSlice({
+  name: 'garment',
   initialState,
   reducers: {
     reset: (state) => {
@@ -126,12 +126,12 @@ export const customerSlice = createSlice({
     [readAll.fulfilled]: (state, action) => {
       state.status = 'fulfilled'
       state.errors = null
-      state.customers = action.payload
+      state.garments = action.payload
     },
     [readAll.rejected]: (state, action) => {
       state.status = 'rejected'
       state.errors = action.payload
-      state.customers = null
+      state.garments = null
     },
     // Read my lifecycle
     [readMy.pending]: (state) => {
@@ -140,12 +140,12 @@ export const customerSlice = createSlice({
     [readMy.fulfilled]: (state, action) => {
       state.status = 'fulfilled'
       state.errors = null
-      state.customer = action.payload
+      state.garment = action.payload
     },
     [readMy.rejected]: (state, action) => {
       state.status = 'rejected'
       state.errors = action.payload
-      state.customer = null
+      state.garment = null
     },
     // Create lifecycle
     [create.pending]: (state) => {
@@ -154,13 +154,13 @@ export const customerSlice = createSlice({
     [create.fulfilled]: (state, action) => {
       state.status = 'fulfilled'
       state.errors = null
-      state.customer = action.payload
-      state.customers.push(action.payload)
+      state.garment = action.payload
+      state.garments.push(action.payload)
     },
     [create.rejected]: (state, action) => {
       state.status = 'rejected'
       state.errors = action.payload
-      state.customer = null
+      state.garment = null
     },
     // Read lifecycle
     [read.pending]: (state) => {
@@ -169,12 +169,12 @@ export const customerSlice = createSlice({
     [read.fulfilled]: (state, action) => {
       state.status = 'fulfilled'
       state.errors = null
-      state.customer = action.payload
+      state.garment = action.payload
     },
     [read.rejected]: (state, action) => {
       state.status = 'rejected'
       state.errors = action.payload
-      state.customer = null
+      state.garment = null
     },
     // Update lifecycle
     [update.pending]: (state) => {
@@ -183,12 +183,12 @@ export const customerSlice = createSlice({
     [update.fulfilled]: (state, action) => {
       state.status = 'fulfilled'
       state.errors = null
-      state.customer = action.payload
+      state.garment = action.payload
     },
     [update.rejected]: (state, action) => {
       state.status = 'rejected'
       state.errors = action.payload
-      state.customer = null
+      state.garment = null
     },
     // Delete lifecycle
     [remove.pending]: (state) => {
@@ -197,15 +197,15 @@ export const customerSlice = createSlice({
     [remove.fulfilled]: (state, action) => {
       state.status = 'fulfilled'
       state.errors = null
-      state.customer = action.payload
+      state.garment = action.payload
     },
     [remove.rejected]: (state, action) => {
       state.status = 'rejected'
       state.errors = action.payload
-      state.customer = null
+      state.garment = null
     },
   },
 })
 
-export const { reset } = customerSlice.actions
-export default customerSlice.reducer
+export const { reset } = garmentSlice.actions
+export default garmentSlice.reducer

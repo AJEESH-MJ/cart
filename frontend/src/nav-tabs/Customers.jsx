@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { readAll, read, create, reset } from '../redux/slices/customer.slice'
+import { readAll, create, remove } from '../redux/slices/customer.slice'
 
 import AddButton from '../assets/AddButton'
 import Button from '../assets/Button'
-import Input from '../assets/Input'
 import LineHeading from '../assets/LineHeading'
-import { ErrorResponse } from '@remix-run/router'
 
-// import customers from '../constants/customer.sample'
+import seedCustomers from '../constants/customer.sample'
 // const customer = {
 //   id: '1234-5678-1',
 //   name: 'John Doe',
@@ -20,11 +18,11 @@ import { ErrorResponse } from '@remix-run/router'
 export default function Customers() {
   const dispatch = useDispatch()
 
-  const { customers, errors } = useSelector((state) => state.customer)
+  const { customers, customer, errors } = useSelector((state) => state.customer)
 
   useEffect(() => {
-    dispatch(readAll()).then(() => dispatch(reset()))
-  }, [dispatch])
+    dispatch(readAll())
+  }, [dispatch, customer])
 
   const [customerData, setCustomerData] = useState({
     name: '',
@@ -46,12 +44,17 @@ export default function Customers() {
       phone,
       place,
     }
-    dispatch(create(customer)).then(() => dispatch(reset()))
-    dispatch(readAll()).then(() => dispatch(reset()))
+    dispatch(create(customer))
   }
 
-  if (errors) {
-    console.log(Object.keys(errors))
+  const seedCustomerHandler = () => {
+    seedCustomers.forEach((customer) => {
+      // random 10 number generator
+      const number = Math.floor(Math.random() * 10000000000)
+      // convert number to string
+      customer.phone = number.toString()
+      dispatch(create(customer))
+    })
   }
 
   const [addCustomer, setAddCustomer] = useState(false)
@@ -87,18 +90,21 @@ export default function Customers() {
                 class='form-control m-0 block w-full rounded border border-solid border-gray-300 bg-white bg-clip-padding px-4 py-2 text-xl font-normal text-gray-700 transition ease-in-out focus:border-gray-600 focus:bg-white focus:text-gray-700 focus:outline-none'
                 placeholder='Place'
               />
+              <div className='flex flex-col text-sm gap-3 text-red-500'>
+                {errors && Object.values(errors).map((error) => <p>{error}</p>)}
+              </div>
               <div className='flex gap-3'>
                 <div
                   class='flex-1'
                   onClick={() => setAddCustomer(!addCustomer)}>
                   <Button text={'CANCEL'} color={'bg-red-600'} />
                 </div>
+                <div class='flex-1 text-right' onClick={seedCustomerHandler}>
+                  <Button text={'SEED'} color={'bg-green-600'} />
+                </div>
                 <div class='flex-1 text-right' onClick={addCustomerHandler}>
                   <Button text={'ADD'} color={'bg-green-600'} />
                 </div>
-              </div>
-              <div className='flex flex-col text-sm gap-3 text-red-500'>
-                {errors && Object.values(errors).map((error) => <p>{error}</p>)}
               </div>
             </div>
           </div>
@@ -142,8 +148,16 @@ export default function Customers() {
                     <td class='py-4 px-6'>{customer.phone}</td>
                     <td class='py-4 px-6'>{customer.place}</td>
                     <td class='py-4 px-6'>
-                      <button class='font-medium text-green-600  hover:underline'>
+                      <button class='font-medium text-green-600  hover:underline  mr-5'>
                         Order
+                      </button>
+                      <button class='font-medium text-blue-600  hover:underline  mr-5'>
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => dispatch(remove(customer._id))}
+                        class='font-medium text-red-600  hover:underline'>
+                        Delete
                       </button>
                     </td>
                   </tr>

@@ -4,7 +4,7 @@ import templates from '../constants/template.sample'
 
 export default function Template() {
   return (
-    <div class='w-[1000px] mt-[65px] overflow-x-auto relative shadow-md sm:rounded-lg'>
+    <div class='w-full mt-[65px] overflow-x-auto relative shadow-md sm:rounded-lg'>
       <table class='w-full text-sm text-left text-gray-500 '>
         <thead class='text-xs text-gray-700 uppercase bg-gray-50  '>
           <tr>

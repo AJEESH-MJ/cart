@@ -1,4 +1,4 @@
-const garments = [
+const seedGarments = [
   {
     id: 0,
     name: 'kandura',
@@ -69,4 +69,4 @@ const garments = [
   },
 ]
 
-export default garments
+export default seedGarments
