@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { login, reset } from '../redux/slices/staff.slice'
+import { login } from '../redux/slices/staff.slice'
 
 import Button from '../assets/Button'
 import LineHeading from '../assets/LineHeading'
@@ -15,15 +15,10 @@ export default function Login() {
   const { staff, errors } = useSelector((state) => state.staff)
 
   useEffect(() => {
-    console.log(staff)
-    console.log(errors)
-
     if (staff) {
       navigate('/')
     }
-
-    dispatch(reset())
-  }, [navigate, staff, dispatch, errors])
+  }, [navigate, staff])
 
   const [loginData, setLoginData] = useState({
     phone: '',
@@ -71,6 +66,12 @@ export default function Login() {
             class='form-control m-0 block w-full rounded border border-solid border-gray-300 bg-white bg-clip-padding px-4 py-2 text-xl font-normal text-gray-700 transition ease-in-out focus:border-gray-600 focus:bg-white focus:text-gray-700 focus:outline-none'
             placeholder='Password'
           />
+        </div>
+        <div className='flex flex-col text-sm gap-3 text-red-500'>
+          {errors &&
+            Object.values(errors).map((error, index) => (
+              <p key={index}>{error}</p>
+            ))}
         </div>
         <div onClick={loginHandler} class='text-center'>
           <Button text={'LOGIN'} color={'bg-slate-600'} />

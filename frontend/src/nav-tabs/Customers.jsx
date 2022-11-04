@@ -91,7 +91,10 @@ export default function Customers() {
                 placeholder='Place'
               />
               <div className='flex flex-col text-sm gap-3 text-red-500'>
-                {errors && Object.values(errors).map((error) => <p>{error}</p>)}
+                {errors &&
+                  Object.values(errors).map((error, index) => (
+                    <p key={index}>{error}</p>
+                  ))}
               </div>
               <div className='flex gap-3'>
                 <div
@@ -99,9 +102,9 @@ export default function Customers() {
                   onClick={() => setAddCustomer(!addCustomer)}>
                   <Button text={'CANCEL'} color={'bg-red-600'} />
                 </div>
-                <div class='flex-1 text-right' onClick={seedCustomerHandler}>
+                {/* <div class='flex-1 text-right' onClick={seedCustomerHandler}>
                   <Button text={'SEED'} color={'bg-green-600'} />
-                </div>
+                </div> */}
                 <div class='flex-1 text-right' onClick={addCustomerHandler}>
                   <Button text={'ADD'} color={'bg-green-600'} />
                 </div>

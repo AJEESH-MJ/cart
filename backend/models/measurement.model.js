@@ -6,7 +6,7 @@ const measurementSchema = mongoose.Schema({
     required: [true, 'Please add a label'],
   },
   value: {
-    type: Number,
+    type: String,
     required: [true, 'Please add a value'],
   },
   unit: {

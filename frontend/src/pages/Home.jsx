@@ -21,12 +21,16 @@ export default function Home() {
 
   const { staff, errors } = useSelector((state) => state.staff)
 
+  // dispatch(getProfile()).then(() => {
+  //   if (!staff) {
+  //     navigate('/login')
+  //   }
+  // })
   useEffect(() => {
-    dispatch(getProfile()).then(() => dispatch(reset()))
-  }, [navigate, dispatch])
-  if (!staff) {
-    navigate('/login')
-  }
+    if (!staff) {
+      navigate('/login')
+    }
+  }, [navigate, staff])
 
   const logoutHandler = () => {
     dispatch(logout())
@@ -40,6 +44,7 @@ export default function Home() {
 
   const [tab, setTab] = useState('Work')
 
+  console.log(errors)
   return (
     <div class='flex h-screen w-full'>
       <aside

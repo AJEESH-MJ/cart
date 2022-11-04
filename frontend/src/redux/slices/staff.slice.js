@@ -53,8 +53,12 @@ export const getProfile = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const token = thunkAPI.getState().staff.staff.token
-      const data = await staffService.getProfile(token)
-      return { ...data, token }
+      if (token) {
+        const data = await staffService.getProfile(token)
+        return { ...data, token }
+      } else {
+        return thunkAPI.rejectWithValue({ errorMessage: 'No token' })
+      }
     } catch (error) {
       const errorMessage = error.message || error.toString()
       return thunkAPI.rejectWithValue({ errorMessage })
@@ -119,6 +123,7 @@ export const staffSlice = createSlice({
       state.status = 'rejected'
       state.errors = action.payload
       state.staff = null
+      localStorage.removeItem('staff')
     },
     // Logout lifecycle
     [logout.pending]: (state) => {
