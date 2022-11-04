@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import AddButton from '../assets/AddButton'
 import Button from '../assets/Button'
@@ -103,107 +103,231 @@ const template = {
 }
 
 export default function Work() {
+  const [tab, setTab] = useState('add')
+  useEffect(() => {
+    setTab('add')
+  }, [])
+
+  const addCustomerHandler = () => {
+    // const customer = {
+    //   name,
+    //   phone,
+    //   place,
+    // }
+    // dispatch(create(customer))
+  }
+
+  const onChangeHandler = (e) => {
+    // setCustomerData((prevState) => ({
+    //   ...prevState,
+    //   [e.target.name]: e.target.value,
+    // }))
+  }
+
   return (
     <>
-      <div class='flex m-8  mt-20 w-full flex-col items-center gap-10 md:rounded-lg bg-white p-12 shadow-2xl shadow-gray-300'>
-        <div class='text-xl font-semibold text-gray-500 '>Add Measurement</div>
-        <div class='flex w-[100%] flex-col gap-5'>
-          {/* <LineHeading text={'Please enter the measurements'} /> */}
-          <div className='flex justify-center items-center gap-3'>
-            <label class='mr-3 text-gray-500 text-xl font-medium'>
-              Template :
-            </label>
-            <select class=' rounded border border-solid border-gray-300 bg-white bg-clip-padding px-4 py-2 text-xl font-normal text-gray-700 transition ease-in-out focus:border-gray-600 focus:bg-white focus:text-gray-700 focus:outline-none'>
-              <option>Kandura main</option>
-              <option>Kandura template 2</option>
-              <option>Kandura template 3</option>
-            </select>
+      <div class='flex items-center gap-2  m-8  mt-24'>
+        <div
+          class={`${
+            tab === 'add' ? 'h-8 w-8  bg-green-500' : 'h-6 w-6  bg-gray-300'
+          } rounded-full`}
+          onClick={() => setTab('add')}></div>
+        <div class='h-1 w-20  bg-gray-300 rounded-full'></div>
+        <div
+          class={`${
+            tab === 'order' ? 'h-8 w-8  bg-green-500' : 'h-6 w-6  bg-gray-300'
+          } rounded-full`}
+          onClick={() => setTab('order')}></div>
+        <div class='h-1 w-20  bg-gray-300 rounded-full'></div>
+        <div
+          class={`${
+            tab === 'measure' ? 'h-8 w-8  bg-green-500' : 'h-6 w-6  bg-gray-300'
+          } rounded-full`}
+          onClick={() => setTab('measure')}></div>
+      </div>
+      {tab === 'add' && (
+        <>
+          <div class='flex w-full flex-col items-center gap-10 md:rounded-lg bg-white p-12 shadow-2xl shadow-gray-300'>
+            <div class='text-xl font-semibold text-gray-500 '>Add Customer</div>
+            <div class='flex w-[100%] flex-col gap-5'>
+              <LineHeading text={'Please enter the customers details'} />
+              <input
+                name='name'
+                // value={name}
+                onChange={onChangeHandler}
+                type='text'
+                class='form-control m-0 block w-full rounded border border-solid border-gray-300 bg-white bg-clip-padding px-4 py-2 text-xl font-normal text-gray-700 transition ease-in-out focus:border-gray-600 focus:bg-white focus:text-gray-700 focus:outline-none'
+                placeholder='Name'
+              />
+              <input
+                name='phone'
+                // value={phone}
+                onChange={onChangeHandler}
+                type='text'
+                class='form-control m-0 block w-full rounded border border-solid border-gray-300 bg-white bg-clip-padding px-4 py-2 text-xl font-normal text-gray-700 transition ease-in-out focus:border-gray-600 focus:bg-white focus:text-gray-700 focus:outline-none'
+                placeholder='Phone'
+              />
+              <input
+                name='place'
+                // value={place}
+                onChange={onChangeHandler}
+                type='text'
+                class='form-control m-0 block w-full rounded border border-solid border-gray-300 bg-white bg-clip-padding px-4 py-2 text-xl font-normal text-gray-700 transition ease-in-out focus:border-gray-600 focus:bg-white focus:text-gray-700 focus:outline-none'
+                placeholder='Place'
+              />
+              {/* <div className='flex flex-col text-sm gap-3 text-red-500'>
+                {errors &&
+                  Object.values(errors).map((error, index) => (
+                    <p key={index}>{error}</p>
+                  ))}
+              </div> */}
+              <div className='flex gap-3'>
+                <div class='flex-1 text-right' onClick={() => setTab('order')}>
+                  <Button text={'ADD'} color={'bg-green-600'} />
+                </div>
+              </div>
+            </div>
           </div>
-          {/* // create a table for measurement // headings are label,
+        </>
+      )}
+      {tab === 'order' && (
+        <>
+          <div class='flex w-full flex-col items-center gap-10 md:rounded-lg bg-white p-12 shadow-2xl shadow-gray-300'>
+            <div class='text-xl font-semibold text-gray-500 '>
+              Order Garment
+            </div>
+            <div class='flex w-[100%] flex-col gap-5'>
+              <div className='flex items-center'>
+                <div class='w-32 text-right mr-3'>Garmant:</div>
+                <select class='w-full rounded border border-solid border-gray-300 bg-white bg-clip-padding px-4 py-2 text-xl font-normal text-gray-700 transition ease-in-out focus:border-gray-600 focus:bg-white focus:text-gray-700 focus:outline-none'>
+                  <option>kandura</option>
+                  <option>kandra shirt</option>
+                  <option>kandra pant</option>
+                </select>
+              </div>
+              <div className='flex items-center'>
+                <div class='w-32 text-right mr-3'>Note:</div>
+                <textarea
+                  class='w-full rounded border border-solid border-gray-300 bg-white bg-clip-padding px-4 py-2 text-xl font-normal text-gray-700 transition ease-in-out focus:border-gray-600 focus:bg-white focus:text-gray-700 focus:outline-none'
+                  type='text'
+                />
+              </div>
+              <div className='flex gap-3'>
+                <div
+                  class='flex-1 text-right'
+                  onClick={() => setTab('measure')}>
+                  <Button text={'ADD'} color={'bg-green-600'} />
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+      {tab === 'measure' && (
+        <>
+          <div class='flex w-full flex-col items-center gap-10 md:rounded-lg bg-white p-12 shadow-2xl shadow-gray-300'>
+            <div class='text-xl font-semibold text-gray-500 '>
+              Add Measurement
+            </div>
+            <div class='flex w-[100%] flex-col gap-5'>
+              {/* <LineHeading text={'Please enter the measurements'} /> */}
+              <div className='flex justify-center items-center gap-3'>
+                <label class='mr-3 text-gray-500 text-xl font-medium'>
+                  Template :
+                </label>
+                <select class=' rounded border border-solid border-gray-300 bg-white bg-clip-padding px-4 py-2 text-xl font-normal text-gray-700 transition ease-in-out focus:border-gray-600 focus:bg-white focus:text-gray-700 focus:outline-none'>
+                  <option>Kandura main</option>
+                  <option>Kandura template 2</option>
+                  <option>Kandura template 3</option>
+                </select>
+              </div>
+              {/* // create a table for measurement // headings are label,
                   value, unit // map through the measurement array // create a
                   row for each measurement */}
-          <table class='table-auto text-gray-600 font-semibold'>
-            <thead>
-              <tr class='text-gray-500'>
-                {/* <th>Label</th>
+              <table class='table-auto text-gray-600 font-semibold'>
+                <thead>
+                  <tr class='text-gray-500'>
+                    {/* <th>Label</th>
                 <th>Value</th>
                 <th>Unit</th> */}
-              </tr>
-            </thead>
-            <tbody>
-              {template.measurement.map((measure, index) => {
-                if (measure.unit === 'inch') {
-                  console.log(measure)
-                  return (
-                    <tr key={index}>
-                      <td>
-                        <div class='text-right mr-3'>{measure.label}:</div>
-                      </td>
-                      <td>
-                        <input
-                          class='w-full rounded border border-solid border-gray-300 bg-white bg-clip-padding px-4 py-2 text-xl font-normal text-gray-700 transition ease-in-out focus:border-gray-600 focus:bg-white focus:text-gray-700 focus:outline-none'
-                          type='text'
-                          value={measure.value}
-                        />
-                      </td>
-                      <td>
-                        <div class=''>{measure.unit}</div>
-                      </td>
-                    </tr>
-                  )
-                } else if (measure.unit === 'option') {
-                  // split measure.value comma separated string into array
-                  const options = measure.value.split(',')
-                  return (
-                    <tr key={index}>
-                      <td>
-                        <div class='text-right mr-3'>{measure.label}:</div>
-                      </td>
-                      <td>
-                        <select class='w-full rounded border border-solid border-gray-300 bg-white bg-clip-padding px-4 py-2 text-xl font-normal text-gray-700 transition ease-in-out focus:border-gray-600 focus:bg-white focus:text-gray-700 focus:outline-none'>
-                          {options.map((option) => (
-                            <option value={option}>{option}</option>
-                          ))}
-                        </select>
-                      </td>
-                      <td>
-                        <div class=''>{measure.unit}</div>
-                      </td>
-                    </tr>
-                  )
-                }
-                return (
-                  <tr key={index}>
-                    <td>{measure.label}</td>
-                    <td>{measure.value}</td>
-                    <td>{measure.unit}</td>
                   </tr>
-                )
-              })}
-            </tbody>
-          </table>
-          {/* <div className='flex flex-col text-sm gap-3 text-red-500'>
+                </thead>
+                <tbody>
+                  {template.measurement.map((measure, index) => {
+                    if (measure.unit === 'inch') {
+                      console.log(measure)
+                      return (
+                        <tr key={index}>
+                          <td>
+                            <div class='text-right mr-3'>{measure.label}:</div>
+                          </td>
+                          <td>
+                            <input
+                              class='w-full rounded border border-solid border-gray-300 bg-white bg-clip-padding px-4 py-2 text-xl font-normal text-gray-700 transition ease-in-out focus:border-gray-600 focus:bg-white focus:text-gray-700 focus:outline-none'
+                              type='text'
+                              value={measure.value}
+                            />
+                          </td>
+                          <td>
+                            <div class=''>{measure.unit}</div>
+                          </td>
+                        </tr>
+                      )
+                    } else if (measure.unit === 'option') {
+                      // split measure.value comma separated string into array
+                      const options = measure.value.split(',')
+                      return (
+                        <tr key={index}>
+                          <td>
+                            <div class='text-right mr-3'>{measure.label}:</div>
+                          </td>
+                          <td>
+                            <select class='w-full rounded border border-solid border-gray-300 bg-white bg-clip-padding px-4 py-2 text-xl font-normal text-gray-700 transition ease-in-out focus:border-gray-600 focus:bg-white focus:text-gray-700 focus:outline-none'>
+                              {options.map((option) => (
+                                <option value={option}>{option}</option>
+                              ))}
+                            </select>
+                          </td>
+                          <td>
+                            <div class=''>{measure.unit}</div>
+                          </td>
+                        </tr>
+                      )
+                    }
+                    return (
+                      <tr key={index}>
+                        <td>{measure.label}</td>
+                        <td>{measure.value}</td>
+                        <td>{measure.unit}</td>
+                      </tr>
+                    )
+                  })}
+                </tbody>
+              </table>
+              {/* <div className='flex flex-col text-sm gap-3 text-red-500'>
             {errors &&
               Object.values(errors).map((error, index) => (
                 <p key={index}>{error}</p>
               ))}
           </div> */}
-          <div className='flex gap-3'>
-            {/* <div class='flex-1'>
+              <div className='flex gap-3'>
+                {/* <div class='flex-1'>
               <Button text={'CANCEL'} color={'bg-red-600'} />
             </div> */}
-            {/* <div class='flex-1 text-right' onClick={seedGarmentHandler}>
-                  <Button text={'SEED'} color={'bg-green-600'} />
-                </div> */}
-            <div
-              class='flex-1 text-center'
-              //  onClick={addGarmentHandler}
-            >
-              <Button text={'ADD'} color={'bg-green-600'} />
+                {/* <div class='flex-1 text-right' onClick={seedGarmentHandler}>
+            <Button text={'SEED'} color={'bg-green-600'} />
+          </div> */}
+                <div
+                  class='flex-1 text-center'
+                  //  onClick={addGarmentHandler}
+                >
+                  <Button text={'FINISH'} color={'bg-green-600'} />
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
+        </>
+      )}
     </>
   )
 }

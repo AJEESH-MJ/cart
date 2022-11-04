@@ -66,7 +66,7 @@ export default function Home() {
           hidebarHandler={hidebarHandler}
           logoutHandler={logoutHandler}
         />
-        <section class='shadow-inset flex flex-col flex-1 items-center justify-center bg-slate-100 text-xl md:px-5 lg:px-20 xl:px-40'>
+        <section class='shadow-inset flex flex-col flex-1 items-center bg-slate-100 text-xl md:px-5 lg:px-20 xl:px-40'>
           {tab === 'Work' && <Work />}
           {tab === 'Customers' && <Customers />}
           {tab === 'Orders' && <Orders />}
