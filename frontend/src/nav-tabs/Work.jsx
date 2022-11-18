@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react'
 
+import { useDispatch, useSelector } from 'react-redux'
+import { create } from '../redux/slices/customer.slice'
+
 import AddButton from '../assets/AddButton'
 import Button from '../assets/Button'
 import LineHeading from '../assets/LineHeading'
@@ -103,25 +106,41 @@ const template = {
 }
 
 export default function Work() {
+  const dispatch = useDispatch()
+
+  const { customer, errors } = useSelector((state) => state.customer)
+
   const [tab, setTab] = useState('add')
   useEffect(() => {
-    setTab('add')
-  }, [])
+    // if customer then set tab to order
+    if (customer) {
+      setTab('order')
+    } else {
+      setTab('add')
+    }
+  }, [customer])
 
-  const addCustomerHandler = () => {
-    // const customer = {
-    //   name,
-    //   phone,
-    //   place,
-    // }
-    // dispatch(create(customer))
-  }
+  const [customerData, setCustomerData] = useState({
+    name: '',
+    phone: '',
+    place: '',
+  })
+  const { name, phone, place } = customerData
 
   const onChangeHandler = (e) => {
-    // setCustomerData((prevState) => ({
-    //   ...prevState,
-    //   [e.target.name]: e.target.value,
-    // }))
+    setCustomerData((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }))
+  }
+
+  const addCustomerHandler = () => {
+    const customer = {
+      name,
+      phone,
+      place,
+    }
+    dispatch(create(customer))
   }
 
   return (
@@ -153,7 +172,7 @@ export default function Work() {
               <LineHeading text={'Please enter the customers details'} />
               <input
                 name='name'
-                // value={name}
+                value={name}
                 onChange={onChangeHandler}
                 type='text'
                 class='form-control m-0 block w-full rounded border border-solid border-gray-300 bg-white bg-clip-padding px-4 py-2 text-xl font-normal text-gray-700 transition ease-in-out focus:border-gray-600 focus:bg-white focus:text-gray-700 focus:outline-none'
@@ -161,7 +180,7 @@ export default function Work() {
               />
               <input
                 name='phone'
-                // value={phone}
+                value={phone}
                 onChange={onChangeHandler}
                 type='text'
                 class='form-control m-0 block w-full rounded border border-solid border-gray-300 bg-white bg-clip-padding px-4 py-2 text-xl font-normal text-gray-700 transition ease-in-out focus:border-gray-600 focus:bg-white focus:text-gray-700 focus:outline-none'
@@ -169,20 +188,20 @@ export default function Work() {
               />
               <input
                 name='place'
-                // value={place}
+                value={place}
                 onChange={onChangeHandler}
                 type='text'
                 class='form-control m-0 block w-full rounded border border-solid border-gray-300 bg-white bg-clip-padding px-4 py-2 text-xl font-normal text-gray-700 transition ease-in-out focus:border-gray-600 focus:bg-white focus:text-gray-700 focus:outline-none'
                 placeholder='Place'
               />
-              {/* <div className='flex flex-col text-sm gap-3 text-red-500'>
+              <div className='flex flex-col text-sm gap-3 text-red-500'>
                 {errors &&
                   Object.values(errors).map((error, index) => (
                     <p key={index}>{error}</p>
                   ))}
-              </div> */}
+              </div>
               <div className='flex gap-3'>
-                <div class='flex-1 text-right' onClick={() => setTab('order')}>
+                <div class='flex-1 text-right' onClick={addCustomerHandler}>
                   <Button text={'ADD'} color={'bg-green-600'} />
                 </div>
               </div>
@@ -201,8 +220,8 @@ export default function Work() {
                 <div class='w-32 text-right mr-3'>Garmant:</div>
                 <select class='w-full rounded border border-solid border-gray-300 bg-white bg-clip-padding px-4 py-2 text-xl font-normal text-gray-700 transition ease-in-out focus:border-gray-600 focus:bg-white focus:text-gray-700 focus:outline-none'>
                   <option>kandura</option>
-                  <option>kandra shirt</option>
-                  <option>kandra pant</option>
+                  <option>shirt</option>
+                  <option>pant</option>
                 </select>
               </div>
               <div className='flex items-center'>
@@ -216,7 +235,7 @@ export default function Work() {
                 <div
                   class='flex-1 text-right'
                   onClick={() => setTab('measure')}>
-                  <Button text={'ADD'} color={'bg-green-600'} />
+                  <Button text={'NEXT'} color={'bg-green-600'} />
                 </div>
               </div>
             </div>
@@ -268,9 +287,7 @@ export default function Work() {
                               value={measure.value}
                             />
                           </td>
-                          <td>
-                            <div class=''>{measure.unit}</div>
-                          </td>
+                          <td>{/* <div class=''>{measure.unit}</div> */}</td>
                         </tr>
                       )
                     } else if (measure.unit === 'option') {
@@ -288,9 +305,7 @@ export default function Work() {
                               ))}
                             </select>
                           </td>
-                          <td>
-                            <div class=''>{measure.unit}</div>
-                          </td>
+                          <td>{/* <div class=''>{measure.unit}</div> */}</td>
                         </tr>
                       )
                     }
@@ -304,23 +319,11 @@ export default function Work() {
                   })}
                 </tbody>
               </table>
-              {/* <div className='flex flex-col text-sm gap-3 text-red-500'>
-            {errors &&
-              Object.values(errors).map((error, index) => (
-                <p key={index}>{error}</p>
-              ))}
-          </div> */}
               <div className='flex gap-3'>
-                {/* <div class='flex-1'>
-              <Button text={'CANCEL'} color={'bg-red-600'} />
-            </div> */}
-                {/* <div class='flex-1 text-right' onClick={seedGarmentHandler}>
-            <Button text={'SEED'} color={'bg-green-600'} />
-          </div> */}
-                <div
-                  class='flex-1 text-center'
-                  //  onClick={addGarmentHandler}
-                >
+                <div class='flex-1'>
+                  <Button text={'BACK'} color={'bg-red-600'} />
+                </div>
+                <div class='flex-1 text-right'>
                   <Button text={'FINISH'} color={'bg-green-600'} />
                 </div>
               </div>
