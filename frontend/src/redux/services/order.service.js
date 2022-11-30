@@ -1,7 +1,7 @@
 import axios from "axios"
-const API_URL = "/api/template/"
+const API_URL = "/api/order/"
 
-// read all templates
+// read all orders
 const readAll = async (token) => {
   const config = {
     headers: {
@@ -12,7 +12,7 @@ const readAll = async (token) => {
   return response.data
 }
 
-// read my templates
+// read my orders
 const readMy = async (token) => {
   const config = {
     headers: {
@@ -23,18 +23,18 @@ const readMy = async (token) => {
   return response.data
 }
 
-// create template
-const create = async (template, token) => {
+// create order
+const create = async (order, token) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   }
-  const response = await axios.post(API_URL + "create", template, config)
+  const response = await axios.post(API_URL + "create", order, config)
   return response.data
 }
 
-// read template
+// read order
 const read = async (id, token) => {
   const config = {
     headers: {
@@ -45,18 +45,38 @@ const read = async (id, token) => {
   return response.data
 }
 
-// update template
-const update = async (id, template, token) => {
+// update order status
+const updateStatus = async (id, current_status, token) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   }
-  const response = await axios.put(API_URL + "update/" + id, template, config)
+  console.log("current_status", current_status)
+  const response = await axios.put(
+    API_URL + "update-status/" + id,
+    current_status,
+    config
+  )
   return response.data
 }
 
-// delete template
+// update order measurement
+const updateMeasurement = async (id, measurement, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+  const response = await axios.put(
+    API_URL + "update-measurement/" + id,
+    measurement,
+    config
+  )
+  return response.data
+}
+
+// delete order
 const remove = async (id, token) => {
   const config = {
     headers: {
@@ -67,12 +87,13 @@ const remove = async (id, token) => {
   return response.data
 }
 
-const templateService = {
+const orderService = {
   readAll,
   readMy,
   create,
   read,
-  update,
+  updateStatus,
+  updateMeasurement,
   remove,
 }
-export default templateService
+export default orderService

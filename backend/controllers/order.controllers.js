@@ -1,13 +1,14 @@
-const asyncHandler = require('express-async-handler')
-const Order = require('../models/order.model')
-const Garment = require('../models/garment.model')
+const asyncHandler = require("express-async-handler")
+const Order = require("../models/order.model")
+const Garment = require("../models/garment.model")
+const Customer = require("../models/customer.model")
 
 const {
   validateOrder,
   validateUpdateStatus,
   validateUpdateMeasurement,
   validateUpdatePrice,
-} = require('../validation/order.validation')
+} = require("../validation/order.validation")
 
 // @desc    Get all orders
 // @route   GET api/order/read/all
@@ -29,42 +30,20 @@ const readMy = asyncHandler(async (req, res) => {
 // @route   POST api/order/create
 // @access  Public
 const create = asyncHandler(async (req, res) => {
-  // Sample of req.body
-  // {
-  //   "customer_id": "5f9f1b0b8b0b2c2b8c8b8b8b",
-  //   "garment": "Shirt",
-  //   "measurement": [
-  //     {
-  //       "name": "Neck",
-  //       "value": 15
-  //     },
-  //     {
-  //       "name": "Chest",
-  //       "value": 15
-  //     },
-  //     {
-  //       "name": "Waist",
-  //       "value": 15
-  //     },
-  //     {
-  //       "name": "Hip",
-  //       "value": 15
-  //     }
-  //   ],
-  //   "current_status": [ "job": "Cutting", "note": "this is a note" ],
-  //   "price": 1000
-  // }
   // Destructure data
-  const { customer_id, garment, measurement, current_status, price } = req.body
+  const { customer_id, garment, measurement, status, price } = req.body
   // Check if garment exist
   const garmentExist = await Garment.findOne({ name: garment })
+  // Check if customer exist
+  const customerExist = await Customer.findOne({ _id: customer_id })
   // Validate order data
   const { errors, valid } = validateOrder({
     customer_id,
     garment,
     garmentExist,
+    customerExist,
     measurement,
-    current_status,
+    status,
     price,
   })
   if (!valid) {
@@ -75,9 +54,9 @@ const create = asyncHandler(async (req, res) => {
       staff_id: req.staff._id,
       customer_id: customer_id,
       garment: garment,
-      measurement,
-      status: [{ ...current_status, staff_id: req.staff._id }],
-      price,
+      measurement: [],
+      status: [],
+      price: 0,
     })
     res.status(200).json(order)
   }
@@ -101,7 +80,7 @@ const updateStatus = asyncHandler(async (req, res) => {
   //   "note": "this is a note"
   // }
   // Destructure data
-  const { current_status } = req.body
+  const current_status = req.body
   // Validate order data
   const { errors, valid } = validateUpdateStatus({
     current_status,

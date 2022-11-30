@@ -1,20 +1,20 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
-import customerService from "../services/customer.service"
+import templateService from "../services/template.service"
 
 const initialState = {
-  customers: null,
-  customer: null,
+  templates: null,
+  template: null,
   status: "idle",
   errors: null,
 }
 
-// Read all customers
+// Read all templates
 export const readAll = createAsyncThunk(
-  "customer/readAll",
+  "template/readAll",
   async (_, thunkAPI) => {
     try {
       const token = thunkAPI.getState().staff.staff.token
-      const data = await customerService.readAll(token)
+      const data = await templateService.readAll(token)
       return data
     } catch (error) {
       const errorMessage = error.message || error.toString()
@@ -23,11 +23,45 @@ export const readAll = createAsyncThunk(
   }
 )
 
-// Read my customers
-export const readMy = createAsyncThunk("customer/readMy", async (thunkAPI) => {
+// Read my templates
+export const readMy = createAsyncThunk(
+  "template/readMy",
+  async (_, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().staff.staff.token
+      const data = await templateService.readMy(token)
+      return data
+    } catch (error) {
+      const errorMessage = error.message || error.toString()
+      return thunkAPI.rejectWithValue({ errorMessage })
+    }
+  }
+)
+
+// create template
+export const create = createAsyncThunk(
+  "template/create",
+  async (template, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().staff.staff.token
+      const data = await templateService.create(template, token)
+      if (data._id) {
+        return data
+      } else {
+        return thunkAPI.rejectWithValue(data)
+      }
+    } catch (error) {
+      const errorMessage = error.message || error.toString()
+      return thunkAPI.rejectWithValue({ errorMessage })
+    }
+  }
+)
+
+// read template
+export const read = createAsyncThunk("template/read", async (id, thunkAPI) => {
   try {
     const token = thunkAPI.getState().staff.staff.token
-    const data = await customerService.readMy(token)
+    const data = await templateService.read(id, token)
     return data
   } catch (error) {
     const errorMessage = error.message || error.toString()
@@ -35,49 +69,13 @@ export const readMy = createAsyncThunk("customer/readMy", async (thunkAPI) => {
   }
 })
 
-// create customer
-export const create = createAsyncThunk(
-  "customer/create",
-  async (customer, thunkAPI) => {
-    try {
-      const token = thunkAPI.getState().staff.staff.token
-      const data = await customerService.create(customer, token)
-      if (data._id) {
-        return data
-      } else {
-        return thunkAPI.rejectWithValue(data)
-      }
-    } catch (error) {
-      const errorMessage = error.message || error.toString()
-      return thunkAPI.rejectWithValue({ errorMessage })
-    }
-  }
-)
-
-// read customer
-export const read = createAsyncThunk("customer/read", async (id, thunkAPI) => {
-  try {
-    const token = thunkAPI.getState().staff.staff.token
-    const data = await customerService.read(id, token)
-    if (data._id) {
-      return data
-    } else {
-      return thunkAPI.rejectWithValue(data)
-    }
-  } catch (error) {
-    const errorMessage = error.message || error.toString()
-    return thunkAPI.rejectWithValue({ errorMessage })
-  }
-})
-
-// update customer
+// update template
 export const update = createAsyncThunk(
-  "customer/update",
-  async (customer, thunkAPI) => {
+  "template/update",
+  async (template, thunkAPI) => {
     try {
       const token = thunkAPI.getState().staff.staff.token
-      const id = thunkAPI.getState().customer.customer._id
-      const data = await customerService.update(id, customer, token)
+      const data = await templateService.update(template, token)
       if (data._id) {
         return data
       } else {
@@ -90,13 +88,13 @@ export const update = createAsyncThunk(
   }
 )
 
-// delete customer
+// delete template
 export const remove = createAsyncThunk(
-  "customer/remove",
+  "template/remove",
   async (id, thunkAPI) => {
     try {
       const token = thunkAPI.getState().staff.staff.token
-      const data = await customerService.remove(id, token)
+      const data = await templateService.remove(id, token)
       if (data._id) {
         return data
       } else {
@@ -109,9 +107,9 @@ export const remove = createAsyncThunk(
   }
 )
 
-// Customer slice
-export const customerSlice = createSlice({
-  name: "customer",
+// template slice
+const templateSlice = createSlice({
+  name: "template",
   initialState,
   reducers: {
     reset: (state) => {
@@ -127,12 +125,12 @@ export const customerSlice = createSlice({
     [readAll.fulfilled]: (state, action) => {
       state.status = "fulfilled"
       state.errors = null
-      state.customers = action.payload
+      state.garments = action.payload
     },
     [readAll.rejected]: (state, action) => {
       state.status = "rejected"
       state.errors = action.payload
-      state.customers = null
+      state.garments = null
     },
     // Read my lifecycle
     [readMy.pending]: (state) => {
@@ -141,12 +139,12 @@ export const customerSlice = createSlice({
     [readMy.fulfilled]: (state, action) => {
       state.status = "fulfilled"
       state.errors = null
-      state.customer = action.payload
+      state.garment = action.payload
     },
     [readMy.rejected]: (state, action) => {
       state.status = "rejected"
       state.errors = action.payload
-      state.customer = null
+      state.garment = null
     },
     // Create lifecycle
     [create.pending]: (state) => {
@@ -155,12 +153,13 @@ export const customerSlice = createSlice({
     [create.fulfilled]: (state, action) => {
       state.status = "fulfilled"
       state.errors = null
-      state.customer = action.payload
+      state.garment = action.payload
+      state.garments.push(action.payload)
     },
     [create.rejected]: (state, action) => {
       state.status = "rejected"
       state.errors = action.payload
-      state.customer = null
+      state.garment = null
     },
     // Read lifecycle
     [read.pending]: (state) => {
@@ -169,12 +168,12 @@ export const customerSlice = createSlice({
     [read.fulfilled]: (state, action) => {
       state.status = "fulfilled"
       state.errors = null
-      state.customer = action.payload
+      state.garment = action.payload
     },
     [read.rejected]: (state, action) => {
       state.status = "rejected"
       state.errors = action.payload
-      state.customer = null
+      state.garment = null
     },
     // Update lifecycle
     [update.pending]: (state) => {
@@ -183,12 +182,12 @@ export const customerSlice = createSlice({
     [update.fulfilled]: (state, action) => {
       state.status = "fulfilled"
       state.errors = null
-      state.customer = action.payload
+      state.garment = action.payload
     },
     [update.rejected]: (state, action) => {
       state.status = "rejected"
       state.errors = action.payload
-      state.customer = null
+      state.garment = null
     },
     // Delete lifecycle
     [remove.pending]: (state) => {
@@ -197,15 +196,15 @@ export const customerSlice = createSlice({
     [remove.fulfilled]: (state, action) => {
       state.status = "fulfilled"
       state.errors = null
-      state.customer = action.payload
+      state.garment = action.payload
     },
     [remove.rejected]: (state, action) => {
       state.status = "rejected"
       state.errors = action.payload
-      state.customer = null
+      state.garment = null
     },
   },
 })
 
-export const { reset } = customerSlice.actions
-export default customerSlice.reducer
+export const { reset } = templateSlice.actions
+export default templateSlice.reducer
