@@ -100,7 +100,6 @@ export const create = createAsyncThunk(
         return thunkAPI.rejectWithValue(data)
       }
     } catch (error) {
-      console.log(error)
       const errorMessage = error.message || error.toString()
       return thunkAPI.rejectWithValue({ errorMessage })
     }
@@ -171,6 +170,9 @@ const orderSlice = createSlice({
     reset: (state) => {
       state.status = "idle"
       state.errors = null
+    },
+    clear: (state) => {
+      state.order = null
     },
   },
   extraReducers: {
@@ -261,5 +263,5 @@ const orderSlice = createSlice({
   },
 })
 
-export const { reset } = orderSlice.actions
+export const { reset, clear } = orderSlice.actions
 export default orderSlice.reducer

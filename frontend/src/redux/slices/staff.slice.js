@@ -1,18 +1,18 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import staffService from '../services/staff.service'
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
+import staffService from "../services/staff.service"
 
 // Get staff from localStorage
-const staff = JSON.parse(localStorage.getItem('staff'))
+const staff = JSON.parse(localStorage.getItem("staff"))
 
 const initialState = {
   staff: staff ? staff : null,
-  status: 'idle',
+  status: "idle",
   errors: null,
 }
 
 // Register staff
 export const register = createAsyncThunk(
-  'staff/register',
+  "staff/register",
   async (staff, thunkAPI) => {
     try {
       const data = await staffService.register(staff)
@@ -30,7 +30,7 @@ export const register = createAsyncThunk(
 
 // Login staff
 export const login = createAsyncThunk(
-  'staff/login',
+  "staff/login",
   async (staff, thunkAPI) => {
     try {
       const data = await staffService.login(staff)
@@ -40,7 +40,6 @@ export const login = createAsyncThunk(
         return thunkAPI.rejectWithValue(data)
       }
     } catch (error) {
-      console.log('asdf')
       const errorMessage = error.message || error.toString()
       return thunkAPI.rejectWithValue({ errorMessage })
     }
@@ -49,7 +48,7 @@ export const login = createAsyncThunk(
 
 // Get profile
 export const getProfile = createAsyncThunk(
-  'staff/getProfile',
+  "staff/getProfile",
   async (_, thunkAPI) => {
     try {
       const token = thunkAPI.getState().staff.staff.token
@@ -57,7 +56,7 @@ export const getProfile = createAsyncThunk(
         const data = await staffService.getProfile(token)
         return { ...data, token }
       } else {
-        return thunkAPI.rejectWithValue({ errorMessage: 'No token' })
+        return thunkAPI.rejectWithValue({ errorMessage: "No token" })
       }
     } catch (error) {
       const errorMessage = error.message || error.toString()
@@ -67,70 +66,70 @@ export const getProfile = createAsyncThunk(
 )
 
 // Logout staff
-export const logout = createAsyncThunk('staff/logout', async () => {
+export const logout = createAsyncThunk("staff/logout", async () => {
   await staffService.logout()
 })
 
 // Staff slice
 export const staffSlice = createSlice({
-  name: 'staff',
+  name: "staff",
   initialState,
   reducers: {
     reset: (state) => {
-      state.status = 'idle'
+      state.status = "idle"
       state.errors = null
     },
   },
   extraReducers: {
     // Register lifecycle
     [register.pending]: (state) => {
-      state.status = 'pending'
+      state.status = "pending"
     },
     [register.fulfilled]: (state, action) => {
-      state.status = 'fulfilled'
+      state.status = "fulfilled"
       state.errors = null
       state.staff = action.payload
     },
     [register.rejected]: (state, action) => {
-      state.status = 'rejected'
+      state.status = "rejected"
       state.errors = action.payload
       state.staff = null
     },
     // Login lifecycle
     [login.pending]: (state) => {
-      state.status = 'pending'
+      state.status = "pending"
     },
     [login.fulfilled]: (state, action) => {
-      state.status = 'fulfilled'
+      state.status = "fulfilled"
       state.errors = null
       state.staff = action.payload
     },
     [login.rejected]: (state, action) => {
-      state.status = 'rejected'
+      state.status = "rejected"
       state.errors = action.payload
       state.staff = null
     },
     // Get profile lifecycle
     [getProfile.pending]: (state) => {
-      state.status = 'pending'
+      state.status = "pending"
     },
     [getProfile.fulfilled]: (state, action) => {
-      state.status = 'fulfilled'
+      state.status = "fulfilled"
       state.errors = null
       state.staff = action.payload
     },
     [getProfile.rejected]: (state, action) => {
-      state.status = 'rejected'
+      state.status = "rejected"
       state.errors = action.payload
       state.staff = null
-      localStorage.removeItem('staff')
+      localStorage.removeItem("staff")
     },
     // Logout lifecycle
     [logout.pending]: (state) => {
-      state.status = 'pending'
+      state.status = "pending"
     },
     [logout.fulfilled]: (state) => {
-      state.status = 'fulfilled'
+      state.status = "fulfilled"
       state.staff = null
     },
   },

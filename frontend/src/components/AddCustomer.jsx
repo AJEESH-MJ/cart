@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 
 import { useDispatch, useSelector } from "react-redux"
-import { create, update } from "../redux/slices/customer.slice"
+import { create, clear, update } from "../redux/slices/customer.slice"
 
 import Button from "../assets/Button"
 import LineHeading from "../assets/LineHeading"
@@ -49,6 +49,15 @@ export default function AddCustomer() {
     dispatch(update(customer))
   }
 
+  const clearCustomerHandler = () => {
+    setCustomerData({
+      name: "",
+      phone: "",
+      place: "",
+    })
+    dispatch(clear())
+  }
+
   return (
     <div class="flex w-full flex-col items-center gap-10 md:rounded-lg bg-white p-12 shadow-2xl shadow-gray-300">
       <div class="text-xl font-semibold text-gray-500 ">Add Customer</div>
@@ -86,7 +95,7 @@ export default function AddCustomer() {
         </div>
         {customer ? (
           <div className="flex justify-between gap-3">
-            <div onClick={updateCustomerHandler}>
+            <div onClick={clearCustomerHandler}>
               <Button text={"CLEAR"} color={"bg-red-600"} />
             </div>
             <div onClick={updateCustomerHandler}>

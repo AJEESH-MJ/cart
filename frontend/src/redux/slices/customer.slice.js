@@ -118,6 +118,9 @@ export const customerSlice = createSlice({
       state.status = "idle"
       state.errors = null
     },
+    clear: (state) => {
+      state.customer = null
+    },
   },
   extraReducers: {
     // Read all lifecycle
@@ -207,5 +210,5 @@ export const customerSlice = createSlice({
   },
 })
 
-export const { reset } = customerSlice.actions
+export const { reset, clear } = customerSlice.actions
 export default customerSlice.reducer

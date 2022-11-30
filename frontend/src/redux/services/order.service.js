@@ -52,7 +52,6 @@ const updateStatus = async (id, current_status, token) => {
       Authorization: `Bearer ${token}`,
     },
   }
-  console.log("current_status", current_status)
   const response = await axios.put(
     API_URL + "update-status/" + id,
     current_status,

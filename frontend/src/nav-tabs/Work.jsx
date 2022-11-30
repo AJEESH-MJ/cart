@@ -122,7 +122,7 @@ export default function Work() {
     } else {
       setTab("measure")
     }
-  }, [customer])
+  }, [customer, order])
 
   return (
     <>
@@ -149,7 +149,7 @@ export default function Work() {
         ></div>
       </div>
       {tab === "add" && <AddCustomer />}
-      {tab === "order" && <OrderGarment />}
+      {tab === "order" && <OrderGarment setTab={setTab} />}
       {tab === "measure" && (
         <>
           <div class="flex w-full flex-col items-center gap-10 md:rounded-lg bg-white p-12 shadow-2xl shadow-gray-300">
@@ -182,7 +182,6 @@ export default function Work() {
                 <tbody>
                   {template.measurement.map((measure, index) => {
                     if (measure.unit === "inch") {
-                      console.log(measure)
                       return (
                         <tr key={index}>
                           <td>

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react"
 
 import { useDispatch, useSelector } from "react-redux"
-import { create, updateStatus } from "../redux/slices/order.slice"
+import { create, clear, updateStatus } from "../redux/slices/order.slice"
 
 import Button from "../assets/Button"
 import LineHeading from "../assets/LineHeading"
 
-export default function OrderGarment() {
+export default function OrderGarment({ setTab }) {
   const dispatch = useDispatch()
 
   const { order, errors } = useSelector((state) => state.order)
@@ -36,6 +36,14 @@ export default function OrderGarment() {
       note,
     }
     dispatch(create(someData))
+  }
+
+  const clearOrderHandler = () => {
+    setOrderData({
+      garment: "",
+      note: "",
+    })
+    dispatch(clear())
   }
 
   return (
@@ -84,11 +92,11 @@ export default function OrderGarment() {
             ))}
         </div>
         <div className="flex justify-between gap-3">
-          <div onClick={() => console.log("back")}>
+          <div onClick={clearOrderHandler}>
             <Button text={"CLEAR"} color={"bg-red-600"} />
           </div>
           {order ? (
-            <div onClick={() => console.log("dfg")}>
+            <div onClick={() => setTab("measure")}>
               <Button text={"NEXT"} color={"bg-blue-600"} />
             </div>
           ) : (
