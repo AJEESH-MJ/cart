@@ -120,7 +120,7 @@ const updateMeasurement = asyncHandler(async (req, res) => {
   //   ]
   // }
   // Destructure data
-  const { measurement } = req.body
+  const measurement = req.body
   // Validate order data
   const { errors, valid } = validateUpdateMeasurement({
     measurement,
@@ -131,7 +131,7 @@ const updateMeasurement = asyncHandler(async (req, res) => {
     // Update order
     const order = await Order.findByIdAndUpdate(
       req.params.id,
-      { measurement },
+      { measurement: measurement },
       { new: true }
     )
     res.status(200).json(order)

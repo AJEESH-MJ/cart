@@ -1,17 +1,17 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose")
 
 const measurementSchema = mongoose.Schema({
   label: {
     type: String,
-    required: [true, 'Please add a label'],
+    required: [true, "Please add a label"],
   },
   value: {
     type: String,
-    required: [true, 'Please add a value'],
+    required: [true, "Please add a value"],
   },
-  unit: {
+  option: {
     type: String,
-    required: [true, 'Please add a unit'],
+    required: [true, "Please add a unit"],
   },
 })
 

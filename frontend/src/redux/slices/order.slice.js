@@ -246,6 +246,20 @@ const orderSlice = createSlice({
       state.errors = action.payload
       state.order = null
     },
+    // Update measurement lifecycle
+    [updateMeasurement.pending]: (state) => {
+      state.status = "pending"
+    },
+    [updateMeasurement.fulfilled]: (state, action) => {
+      state.status = "fulfilled"
+      state.errors = null
+      state.order = action.payload
+    },
+    [updateMeasurement.rejected]: (state, action) => {
+      state.status = "rejected"
+      state.errors = action.payload
+      state.order = null
+    },
     // Delete lifecycle
     [remove.pending]: (state) => {
       state.status = "pending"

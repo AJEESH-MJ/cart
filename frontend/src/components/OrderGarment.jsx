@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 
 import { useDispatch, useSelector } from "react-redux"
-import { create, clear, updateStatus } from "../redux/slices/order.slice"
+import { create, clear } from "../redux/slices/order.slice"
 
 import Button from "../assets/Button"
 import LineHeading from "../assets/LineHeading"

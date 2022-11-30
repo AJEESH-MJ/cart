@@ -18,8 +18,10 @@ export default function Work() {
       setTab("add")
     } else if (!order) {
       setTab("order")
-    } else {
+    } else if (!order.measurement.length > 0) {
       setTab("measure")
+    } else {
+      setTab("preview")
     }
   }, [customer, order])
 

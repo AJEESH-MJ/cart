@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react"
 
+import { useDispatch, useSelector } from "react-redux"
+import { create, clear, updateMeasurement } from "../redux/slices/order.slice"
+
 import AddButton from "../assets/AddButton"
 import Button from "../assets/Button"
 import LineHeading from "../assets/LineHeading"
@@ -87,6 +90,10 @@ const templateSample = {
 }
 
 const MeasureOrder = ({ setTab }) => {
+  const dispatch = useDispatch()
+
+  const { order, errors } = useSelector((state) => state.order)
+
   const [template, setTemplate] = useState("")
   const [measurements, setMeasurements] = useState("")
 
@@ -108,9 +115,23 @@ const MeasureOrder = ({ setTab }) => {
     })
   }
 
+  const addMeasurementHandler = () => {
+    dispatch(updateMeasurement(measurements))
+  }
+
+  const clearMeasurementHandler = () => {
+    setMeasurements("")
+    dispatch(clear())
+  }
+
   useEffect(() => {
-    setMeasurements(templateSample.measurement)
-  }, [template])
+    //if order exist
+    if (order && order.measurement.length > 0) {
+      setMeasurements(order.measurement)
+    } else {
+      setMeasurements(templateSample.measurement)
+    }
+  }, [template, order])
 
   return (
     <>
@@ -163,7 +184,7 @@ const MeasureOrder = ({ setTab }) => {
                                 onChange={onChangeHandler}
                                 value={option}
                                 id={measure.label + option}
-                                class="peer hidden"
+                                class="hidden"
                                 checked="false"
                               />
                               <label
@@ -181,12 +202,22 @@ const MeasureOrder = ({ setTab }) => {
                 })}
             </tbody>
           </table>
-          <div className="flex gap-3">
-            <div class="flex-1" onClick={() => setTab("order")}>
-              <Button text={"BACK"} color={"bg-red-600"} />
+          <div className="flex gap-3  justify-between">
+            <div className="flex gap-3">
+              <div class="flex-1" onClick={() => setTab("order")}>
+                <Button text={"BACK"} color={"bg-blue-600"} />
+              </div>
+              {/* <div class="flex-1" onClick={() => setTab("order")}>
+                <Button text={"CLEAR"} color={"bg-red-600"} />
+            </div> */}
             </div>
-            <div class="flex-1 text-right">
-              <Button text={"FINISH"} color={"bg-green-600"} />
+            <div className="flex gap-3">
+              {/* <div class="flex-1 text-right" onClick={addMeasurementHandler}>
+                <Button text={"UPDATE"} color={"bg-blue-600"} />
+              </div> */}
+              <div class="flex-1 text-right" onClick={addMeasurementHandler}>
+                <Button text={"UPDATE & PREVIEW"} color={"bg-green-600"} />
+              </div>
             </div>
           </div>
         </div>
