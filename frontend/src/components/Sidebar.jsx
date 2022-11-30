@@ -26,9 +26,9 @@ export default function Sidebar({ hidebarHandler, staff, tab, setTab }) {
           <div class="text-xs font-bold text-gray-400">--DASHBOARD</div>
           <NavButton text={"Customers"} tab={tab} setTab={setTab} />
           <NavButton text={"Orders"} tab={tab} setTab={setTab} />
-          {/* <NavButton text={'Garments'} tab={tab} setTab={setTab} />
-          <NavButton text={'Template'} tab={tab} setTab={setTab} />
-          <NavButton text={'Staffs'} tab={tab} setTab={setTab} /> */}
+          <NavButton text={"Garments"} tab={tab} setTab={setTab} />
+          <NavButton text={"Template"} tab={tab} setTab={setTab} />
+          <NavButton text={"Staffs"} tab={tab} setTab={setTab} />
         </div>
         <div class="flex flex-col gap-1 py-5">
           <div class="text-xs font-bold text-gray-400">--WORKFLOW</div>
