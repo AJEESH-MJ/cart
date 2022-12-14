@@ -125,12 +125,12 @@ const templateSlice = createSlice({
     [readAll.fulfilled]: (state, action) => {
       state.status = "fulfilled"
       state.errors = null
-      state.garments = action.payload
+      state.templates = action.payload
     },
     [readAll.rejected]: (state, action) => {
       state.status = "rejected"
       state.errors = action.payload
-      state.garments = null
+      state.templates = null
     },
     // Read my lifecycle
     [readMy.pending]: (state) => {
@@ -139,12 +139,12 @@ const templateSlice = createSlice({
     [readMy.fulfilled]: (state, action) => {
       state.status = "fulfilled"
       state.errors = null
-      state.garment = action.payload
+      state.template = action.payload
     },
     [readMy.rejected]: (state, action) => {
       state.status = "rejected"
       state.errors = action.payload
-      state.garment = null
+      state.template = null
     },
     // Create lifecycle
     [create.pending]: (state) => {
@@ -153,13 +153,13 @@ const templateSlice = createSlice({
     [create.fulfilled]: (state, action) => {
       state.status = "fulfilled"
       state.errors = null
-      state.garment = action.payload
-      state.garments.push(action.payload)
+      state.template = action.payload
+      state.templates.push(action.payload)
     },
     [create.rejected]: (state, action) => {
       state.status = "rejected"
       state.errors = action.payload
-      state.garment = null
+      state.template = null
     },
     // Read lifecycle
     [read.pending]: (state) => {
@@ -168,12 +168,12 @@ const templateSlice = createSlice({
     [read.fulfilled]: (state, action) => {
       state.status = "fulfilled"
       state.errors = null
-      state.garment = action.payload
+      state.template = action.payload
     },
     [read.rejected]: (state, action) => {
       state.status = "rejected"
       state.errors = action.payload
-      state.garment = null
+      state.template = null
     },
     // Update lifecycle
     [update.pending]: (state) => {
@@ -182,12 +182,12 @@ const templateSlice = createSlice({
     [update.fulfilled]: (state, action) => {
       state.status = "fulfilled"
       state.errors = null
-      state.garment = action.payload
+      state.template = action.payload
     },
     [update.rejected]: (state, action) => {
       state.status = "rejected"
       state.errors = action.payload
-      state.garment = null
+      state.template = null
     },
     // Delete lifecycle
     [remove.pending]: (state) => {
@@ -196,12 +196,12 @@ const templateSlice = createSlice({
     [remove.fulfilled]: (state, action) => {
       state.status = "fulfilled"
       state.errors = null
-      state.garment = action.payload
+      state.template = action.payload
     },
     [remove.rejected]: (state, action) => {
       state.status = "rejected"
       state.errors = action.payload
-      state.garment = null
+      state.template = null
     },
   },
 })

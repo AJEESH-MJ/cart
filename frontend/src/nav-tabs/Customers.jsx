@@ -6,14 +6,6 @@ import { readAll, remove, read } from "../redux/slices/customer.slice"
 import AddButton from "../assets/AddButton"
 import AddCustomer from "../components/AddCustomer"
 
-import seedCustomers from "../constants/customer.sample"
-// const customer = {
-//   id: '1234-5678-1',
-//   name: 'John Doe',
-//   phone: '1234567890',
-//   place: '1234 Main St, AnyTown, USA',
-// }
-
 export default function Customers() {
   const dispatch = useDispatch()
 
@@ -62,8 +54,8 @@ export default function Customers() {
               customers
                 .slice(0)
                 .reverse()
-                .map((customer, index) => (
-                  <tr key={index} class="bg-white border-b  ">
+                .map((customer) => (
+                  <tr key={customer._id} class="bg-white border-b  ">
                     <td class="py-4 px-6 text-gray-900 font-medium">
                       {customer.name}
                     </td>
@@ -74,7 +66,7 @@ export default function Customers() {
                         onClick={() => dispatch(read(customer._id))}
                         class="font-medium text-green-600  hover:underline  mr-5"
                       >
-                        Order
+                        Select
                       </button>
                       <button class="font-medium text-blue-600  hover:underline  mr-5">
                         Edit

@@ -1,100 +1,18 @@
 import React, { useState, useEffect } from "react"
 
 import { useDispatch, useSelector } from "react-redux"
-import { create, clear, updateMeasurement } from "../redux/slices/order.slice"
+import { clear, updateMeasurement } from "../redux/slices/order.slice"
+import { readAll, read } from "../redux/slices/template.slice"
 
-import AddButton from "../assets/AddButton"
 import Button from "../assets/Button"
 import LineHeading from "../assets/LineHeading"
-
-const templateSample = {
-  garment: "kandura",
-  name: "template 5",
-  measurement: [
-    {
-      label: "type",
-      value: "kuwaiti",
-      option: "kuwaiti,kathari,jallabi,mughassir",
-    },
-    {
-      label: "lenght",
-      value: "00",
-      option: "+1/2,+1/3,+1/4,+1/5,+1/6",
-    },
-    {
-      label: "bottom",
-      value: "00",
-      option: "+1/2,+1/3,+1/4,+1/5,+1/6,1/8",
-    },
-    {
-      label: "b-width",
-      value: "00",
-      option: "+1/2,+1/3,+1/4,+1/5,+1/6",
-    },
-    {
-      label: "shoulder",
-      value: "00",
-      option: "+1/2,+1/3,+1/4,+1/5,+1/6",
-    },
-    {
-      label: "neck",
-      value: "00",
-      option: "+1/2,+1/3,+1/4,+1/5,+1/6",
-    },
-    {
-      label: "h-lenght",
-      value: "00",
-      option: "+1/2,+1/3,+1/4,+1/5,+1/6",
-    },
-    {
-      label: "regal",
-      value: "00",
-      option: "+1/2,+1/3,+1/4,+1/5,+1/6",
-    },
-    {
-      label: "h-bottom",
-      value: "00",
-      option: "+1/2,+1/3,+1/4,+1/5,+1/6",
-    },
-    {
-      label: "chest",
-      value: "00",
-      option: "+1/2,+1/3,+1/4,+1/5,+1/6",
-    },
-    {
-      label: "k-lose",
-      value: "00",
-      option: "+1/2,+1/3,+1/4,+1/5,+1/6",
-    },
-    {
-      label: "ch-lose",
-      value: "00",
-      option: "+1/2,+1/3,+1/4,+1/5,+1/6",
-    },
-    {
-      label: "sleeve",
-      value: "bath",
-      option: "bath,bithunbath",
-    },
-    {
-      label: "stitch",
-      value: "inside",
-      option: "inside,outside",
-    },
-    {
-      label: "lisaan",
-      value: "bt",
-      option: "bt,t-saada",
-    },
-  ],
-}
 
 const MeasureOrder = ({ setTab }) => {
   const dispatch = useDispatch()
 
   const { order, errors } = useSelector((state) => state.order)
+  const { templates, template } = useSelector((state) => state.template)
 
-  const [template, setTemplate] = useState("")
   const [measurements, setMeasurements] = useState("")
 
   const onChangeHandler = (e) => {
@@ -128,9 +46,10 @@ const MeasureOrder = ({ setTab }) => {
     //if order exist
     if (order && order.measurement.length > 0) {
       setMeasurements(order.measurement)
-    } else {
-      setMeasurements(templateSample.measurement)
+    } else if (template) {
+      setMeasurements(template.measurement)
     }
+    dispatch(readAll())
   }, [template, order])
 
   return (
@@ -144,12 +63,13 @@ const MeasureOrder = ({ setTab }) => {
             </label>
             <select
               class=" rounded border border-solid border-gray-300 bg-white bg-clip-padding px-4 py-2 text-xl font-normal text-gray-700 transition ease-in-out focus:border-gray-600 focus:bg-white focus:text-gray-700 focus:outline-none"
-              onChange={(e) => setTemplate(e.target.value)}
-              value={template}
+              onChange={(e) => dispatch(read(e.target.value))}
             >
-              <option>Kandura main</option>
-              <option>Kandura template 2</option>
-              <option>Kandura template 3</option>
+              {templates &&
+                templates
+                  .slice(0)
+                  .reverse()
+                  .map((item) => <option value={item._id}>{item.name}</option>)}
             </select>
           </div>
           <LineHeading text={"Please enter the measurements"} />
