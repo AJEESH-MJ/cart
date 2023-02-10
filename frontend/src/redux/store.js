@@ -4,6 +4,7 @@ import customerReducer from "../redux/slices/customer.slice"
 import garmentReducer from "../redux/slices/garment.slice"
 import templateReducer from "../redux/slices/template.slice"
 import orderReducer from "../redux/slices/order.slice"
+import invoiceReducer from "../redux/slices/invoice.slice"
 
 export const store = configureStore({
   reducer: {
@@ -12,5 +13,6 @@ export const store = configureStore({
     garment: garmentReducer,
     template: templateReducer,
     order: orderReducer,
+    invoice: invoiceReducer,
   },
 })

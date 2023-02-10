@@ -1,29 +1,30 @@
-const express = require('express')
+const express = require("express")
 
-const { notFound, errorHandler } = require('./middleware/error.middleware')
+const { notFound, errorHandler } = require("./middleware/error.middleware")
 
 // Start Express Server
 app = express()
 port = process.env.PORT || 5000
 
 // Configurations
-require('dotenv').config()
-require('colors')
-require('./config/db')
+require("dotenv").config()
+require("colors")
+require("./config/db")
 
 // Express Middleware Services
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
 // Main Routes
-app.get('/', (req, res) => res.send('Server is running...'))
+app.get("/", (req, res) => res.send("Server is running..."))
 
 // API Routes
-app.use('/api/staff', require('./routes/staff.routes'))
-app.use('/api/customer', require('./routes/customer.routes'))
-app.use('/api/garment', require('./routes/garment.routes'))
-app.use('/api/template', require('./routes/template.routes'))
-app.use('/api/order', require('./routes/order.routes'))
+app.use("/api/staff", require("./routes/staff.routes"))
+app.use("/api/customer", require("./routes/customer.routes"))
+app.use("/api/garment", require("./routes/garment.routes"))
+app.use("/api/template", require("./routes/template.routes"))
+app.use("/api/order", require("./routes/order.routes"))
+app.use("/api/invoice", require("./routes/invoice.routes"))
 
 // Error Handling Middleware
 app.use(notFound)

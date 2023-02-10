@@ -82,9 +82,7 @@ const updateStatus = asyncHandler(async (req, res) => {
   // Destructure data
   const current_status = req.body
   // Validate order data
-  const { errors, valid } = validateUpdateStatus({
-    current_status,
-  })
+  const { errors, valid } = validateUpdateStatus({ current_status })
   if (!valid) {
     res.status(200).json(errors)
   } else {
@@ -156,11 +154,7 @@ const updatePrice = asyncHandler(async (req, res) => {
     res.status(200).json(errors)
   } else {
     // Update order
-    const order = await Order.findByIdAndUpdate(
-      req.params.id,
-      { price },
-      { new: true }
-    )
+    const order = await Order.findByIdAndUpdate(req.params.id, { price }, { new: true })
     res.status(200).json(order)
   }
 })
