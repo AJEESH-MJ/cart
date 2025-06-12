@@ -46,15 +46,15 @@ export default function Home() {
 
   console.log(errors)
   return (
-    <div class="flex h-screen w-full">
+    <div className="flex h-screen w-full">
       <aside
-        class={`absolute shadow-hidebar md:shadow-none ${
+        className={`absolute shadow-hidebar md:shadow-none ${
           hidebar && "hidden"
         } md:static h-full w-full md:w-[250px] flex-col items-center gap-8 border-r border-slate-200 bg-white pt-6 z-[100] `}
       >
         <Sidebar staff={staff && staff} hidebarHandler={hidebarHandler} tab={tab} setTab={setTab} />
       </aside>
-      <main class="flex flex-1 flex-col overflow-y-scroll w-full">
+      <main className="flex flex-1 flex-col overflow-y-scroll w-full">
         <Navbar
           tab={tab}
           name={staff && staff.name}
@@ -62,7 +62,7 @@ export default function Home() {
           hidebarHandler={hidebarHandler}
           logoutHandler={logoutHandler}
         />
-        <section class="shadow-inset flex flex-col flex-1 items-center bg-slate-100 text-xl md:px-5 lg:px-20 xl:px-40">
+        <section className="shadow-inset flex flex-col flex-1 items-center bg-slate-100 text-xl md:px-5 lg:px-20 xl:px-40">
           {tab === "Work" && <Work />}
           {tab === "Invoice" && <Invoice />}
           {tab === "Customers" && <Customers />}
