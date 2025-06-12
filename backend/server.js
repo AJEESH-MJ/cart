@@ -7,8 +7,9 @@ app = express()
 port = process.env.PORT || 5000
 
 // Configurations
-require("dotenv").config()
 require("colors")
+require('dotenv').config({ path: './backend/.env' });
+
 require("./config/db")
 
 // Express Middleware Services
